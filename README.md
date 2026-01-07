@@ -107,4 +107,4 @@ This Cloudron packaging contains no modification to GLPI core code.
 
 ---
 
-Maintained by **Ixapack**.
+Maintained by **Vitetj**.

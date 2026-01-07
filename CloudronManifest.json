@@ -1,0 +1,20 @@
+{
+  "id": "org.glpi.cloudron",
+  "title": "GLPI",
+  "author": "Jeje",
+  "description": "GLPI 11 ITSM – Cloudron Full Package",
+  "tagline": "IT Asset & Service Management",
+  "version": "11.0.4",
+  "healthCheckPath": "/",
+  "httpPort": 8000,
+  "addons": {
+    "mysql": {},
+    "ldap": {},
+    "localstorage": {}
+  },
+  "memoryLimit": 1073741824,
+  "website": "https://glpi-project.org",
+  "manifestVersion": 2,
+  "postInstallMessage": "⚠️ MANUAL POST-INSTALL REQUIRED (ONE TIME)\n\nGLPI does not initialize its database automatically on Cloudron.\n\nAfter installing this app, you MUST run the following command once:\n\ncloudron exec bash /app/code/init-glpi.sh\n\nThis will initialize the GLPI database and create the default admin account.\n\nDefault credentials after initialization:\n  Login: glpi\n  Password: glpi\n\n⚠️ IMPORTANT:\n- Run this script ONLY ONCE\n- Change the default password immediately after first login"
+
+}

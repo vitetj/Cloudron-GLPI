@@ -1,0 +1,2 @@
+
+*/5 * * * * www-data php /var/www/html/app/bin/console glpi:cron --quiet

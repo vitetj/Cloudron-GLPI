@@ -2,17 +2,31 @@
 set -eu
 
 # ==============================
-# Cloudron directories
+# Directories
 # ==============================
+GLPI_DIR="/var/www/html/app"
 DATA_DIR="/app/data"
+
 CONFIG_DIR="${DATA_DIR}/config"
 FILES_DIR="${DATA_DIR}/files"
 PLUGINS_DIR="${DATA_DIR}/plugins"
-
-mkdir -p "$CONFIG_DIR" "$FILES_DIR" "$PLUGINS_DIR"
+MARKETPLACE_DIR="${DATA_DIR}/marketplace"
 
 # ==============================
-# GLPI database configuration
+# Create persistent directories
+# ==============================
+mkdir -p "$CONFIG_DIR" "$FILES_DIR" "$PLUGINS_DIR" "$MARKETPLACE_DIR"
+
+# ==============================
+# Symlinks expected by GLPI
+# ==============================
+ln -sf "$CONFIG_DIR/config_db.php" "$GLPI_DIR/config/config_db.php"
+ln -sf "$FILES_DIR"              "$GLPI_DIR/files"
+ln -sf "$PLUGINS_DIR"            "$GLPI_DIR/plugins"
+ln -sf "$MARKETPLACE_DIR"        "$GLPI_DIR/marketplace"
+
+# ==============================
+# Database configuration
 # ==============================
 CONFIG_DB="${CONFIG_DIR}/config_db.php"
 
@@ -30,20 +44,9 @@ EOF
 fi
 
 # ==============================
-# Tell GLPI where mutable dirs are
-# ==============================
-export GLPI_CONFIG_DIR="$CONFIG_DIR"
-export GLPI_VAR_DIR="$FILES_DIR"
-export GLPI_PLUGINS_DIR="$PLUGINS_DIR"
-
-# ==============================
 # Permissions (Cloudron-safe)
 # ==============================
 chown -R www-data:www-data "$DATA_DIR"
-
-if [ ! -f "$DATA_DIR/.glpi_initialized" ]; then
-  echo "GLPI is not initialized yet. Run init-glpi.sh via Cloudron." >&2
-fi
 
 # ==============================
 # Start Apache

@@ -24,6 +24,8 @@ RUN apt-get update && apt-get install -y \
     php-imap \
     curl \
     ca-certificates \
+    mysql-client \
+    sudo \
  && rm -rf /var/lib/apt/lists/*
 
 # ------------------------------
@@ -56,10 +58,12 @@ RUN curl -fL https://github.com/glpi-project/glpi/releases/download/${GLPI_VERSI
 RUN rm -rf /var/www/html/app/files \
            /var/www/html/app/plugins \
            /var/www/html/app/marketplace \
+           /var/www/html/app/config \
  && mkdir -p /app/data/files /app/data/plugins /app/data/marketplace /app/data/config \
  && ln -s /app/data/files       /var/www/html/app/files \
  && ln -s /app/data/plugins     /var/www/html/app/plugins \
- && ln -s /app/data/marketplace /var/www/html/app/marketplace
+ && ln -s /app/data/marketplace /var/www/html/app/marketplace \
+ && ln -s /app/data/config      /var/www/html/app/config
 
 # Ownership (does NOT make writable at runtime, just clean)
 RUN chown -R www-data:www-data /var/www/html/app /app/data

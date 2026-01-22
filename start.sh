@@ -8,8 +8,9 @@ DATA_DIR="/app/data"
 CONFIG_DIR="${DATA_DIR}/config"
 FILES_DIR="${DATA_DIR}/files"
 PLUGINS_DIR="${DATA_DIR}/plugins"
+MARKETPLACE_DIR="${DATA_DIR}/marketplace"
 
-mkdir -p "$CONFIG_DIR" "$FILES_DIR" "$PLUGINS_DIR"
+mkdir -p "$CONFIG_DIR" "$FILES_DIR" "$PLUGINS_DIR" "$MARKETPLACE_DIR"
 
 # GLPI directories override
 export GLPI_CONFIG_DIR="$CONFIG_DIR"
@@ -18,6 +19,12 @@ export GLPI_PLUGINS_DIR="$PLUGINS_DIR"
 
 # Permissions (Cloudron-safe)
 chown -R www-data:www-data "$DATA_DIR"
+
+# Create symlink for marketplace directory (read-only filesystem workaround)
+if [ ! -L /var/www/html/app/marketplace ]; then
+  rm -rf /var/www/html/app/marketplace
+  ln -sf "$MARKETPLACE_DIR" /var/www/html/app/marketplace
+fi
 
 # -----------------------------
 # Background initialization
